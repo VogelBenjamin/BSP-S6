@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<math.h>
-double* cg(unsigned int size, double* A, double* b, double* init_g, double epsilon)
+double* cg(unsigned int size, double* A, double* b, double* init_g, double epsilon, int debug)
 {
 	double* solution;
 	double* residual;
@@ -12,11 +12,11 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 	double* intermediate_comp;
 	double alpha;
 	double beta;
-	solution = malloc(sizeof(double)*size);
-	residual = malloc(sizeof(double)*size);
-	residual_prev = malloc(sizeof(double)*size);
-	search_direction = malloc(sizeof(double)*size);
-	intermediate_comp = malloc(sizeof(double)*size);
+	solution = (double*)malloc(sizeof(double)*size);
+	residual = (double*)malloc(sizeof(double)*size);
+	residual_prev = (double*)malloc(sizeof(double)*size);
+	search_direction = (double*)malloc(sizeof(double)*size);
+	intermediate_comp = (double*)malloc(sizeof(double)*size);
 
 	vector_copy(size, solution, init_g);
 	compute_residual(size, A, b, solution, residual);
@@ -26,34 +26,53 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 	int i = 0;
 
 	while (sqrt(dot_product(size, residual, residual)) > epsilon){
-		//printf("Current epsilon: %lf \n",sqrt(dot_product(size, residual, residual)));
+		if(debug == 3 && i > size)
+		{
+			printf("Unable to converge");
+			break;
+		}
+		if(debug == 2){
+			printf("Current epsilon: %lf \n",sqrt(dot_product(size, residual, residual)));
+		}
 		matrix_vector_mult(size,A,search_direction,intermediate_comp);
 		alpha = dot_product(size, residual, residual) / dot_product(size, search_direction, intermediate_comp);
-		//printf("Current alpha: %lf \n", alpha);
+
+		if(debug == 2){
+			printf("Current alpha: %lf, %lf, %.20lf \n",dot_product(size, residual, residual), dot_product(size, search_direction, intermediate_comp), dot_product(size, residual, residual) / dot_product(size, search_direction, intermediate_comp));
+		}
 
 		vector_add(size,solution,search_direction,alpha,solution);
-		//printf("Current solution: ");
-		//print_vector(size,solution);
+		if(debug == 2){
+			printf("Current solution: ");
+			print_vector(size,solution);
+		}
+		
 
 		vector_copy(size,residual_prev,residual);
 		vector_add(size,residual_prev,intermediate_comp,alpha,residual);
-		//printf("Current residual: ");
-		//print_vector(size,residual);
+		if(debug == 2){
+			printf("Current residual: ");
+			print_vector(size,residual);
+		}
+		
 
 
 		beta = dot_product(size, residual,residual) / dot_product(size, residual_prev, residual_prev);
-		//printf("Current beta: %lf \n", beta);
-
+		if(debug == 2){
+			printf("Current beta: %lf \n",beta);
+		}
 		vector_copy(size,intermediate_comp,residual);
 		scalar_vector_mult_inplace(size,intermediate_comp,-1);
 		vector_add(size,intermediate_comp,search_direction,beta,search_direction);
+		if(debug == 2){
+			printf("Current search dir: ");
+			print_vector(size,search_direction);
+		}
 		
-		//printf("Current search dir: ");
-		//print_vector(size,search_direction);
 		i++;
 	}
 
-	
+	printf("Number of iterations: %d\nFinal epsilon: %.12lf\n", i, sqrt(dot_product(size, residual, residual)));
 	free(residual);
 	free(residual_prev);
 	free(search_direction);

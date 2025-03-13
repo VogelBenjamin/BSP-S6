@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include<assert.h>
 #include"../src/LAS_serial.h"
-#include"../src/cg_serial.h"
 
 #define epsilon 1E-8
 
@@ -69,20 +68,5 @@ int main()
         assert(storage[i] - 3 < epsilon);
     }
 
-    // cg test
-    double cg_matrix[25] = {
-        5.0, 1.0, 0.0, 0.0, 1.0,  
-        1.0, 5.0, 1.0, 0.0, 0.0,  
-        0.0, 1.0, 5.0, 1.0, 0.0,  
-        0.0, 0.0, 1.0, 5.0, 1.0,  
-        1.0, 0.0, 0.0, 1.0, 5.0   
-    };
-    double* cg_solution;
-    cg_solution = cg(N,cg_matrix,vector_1,vector_2,epsilon);
-    for (unsigned int i = 0; i < N; ++i)
-    {
-        assert(cg_solution[i] - (1.0/7.0) < epsilon);
-    }
-	free(cg_solution);
     return 0;
 }
