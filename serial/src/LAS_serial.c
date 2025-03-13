@@ -14,6 +14,7 @@ void matrix_vector_mult(unsigned int size, double* matrix, double* vector, doubl
 {
 	for (unsigned int i = 0; i < size; ++i)
 	{
+		// use local accumulator
 		vector_storage[i] = 0;
 		for (unsigned int j = 0; j < size; ++j)
 		{
