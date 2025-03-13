@@ -31,66 +31,63 @@ int main()
     free(cg_solution);
     printf("Finished small test problem\n");
 
+    double* FFGE_matrix;
     // BCSSTK06
-    double b[420];
-    double init[420];
+    double b_06[420];
+    double init_06[420];
     for (unsigned int i = 0; i < 420; ++i)
     {
-        b[i] = 1;
-        init[i] = 1;
+        b_06[i] = 1;
+        init_06[i] = 1;
     }
-    double* FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk06.mtx");
-    printf("This worked\n");
+    FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk06.mtx");
     printf("Start BCSSTK06\n");
-    cg_solution = cg(420,FFGE_matrix,b,init,epsilon,0);
+    cg_solution = cg(420,FFGE_matrix,b_06,init_06,epsilon,0);
     free(FFGE_matrix);
     free(cg_solution);
     printf("Finished BCSSTK06\n");
 
     // BCSSTK13
-    double b[2003];
-    double init[2003];
+    double b_13[2003];
+    double init_13[2003];
     for (unsigned int i = 0; i < 2003; ++i)
     {
-        b[i] = 1;
-        init[i] = 1;
+        b_13[i] = 1;
+        init_13[i] = 1;
     }
-    double* FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk13.mtx");
-    printf("This worked\n");
+    FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk13.mtx");
     printf("Start BCSSTK13\n");
-    cg_solution = cg(2003,FFGE_matrix,b,init,epsilon,3);
+    cg_solution = cg(2003,FFGE_matrix,b_13,init_13,epsilon,3);
     free(FFGE_matrix);
     free(cg_solution);
     printf("Finished BCSSTK13\n");
 
     // BCSSTK16
-    double b[4884];
-    double init[4884];
+    double b_16[4884];
+    double init_16[4884];
     for (unsigned int i = 0; i < 4884; ++i)
     {
-        b[i] = 1;
-        init[i] = 1;
+        b_16[i] = 1;
+        init_16[i] = 1;
     }
-    double* FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk16.mtx");
-    printf("This worked\n");
+    FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk16.mtx");
     printf("Start BCSSTK16\n");
-    cg_solution = cg(4884,FFGE_matrix,b,init,epsilon,3);
+    cg_solution = cg(4884,FFGE_matrix,b_16,init_16,epsilon,0);
     free(FFGE_matrix);
     free(cg_solution);
     printf("Finished BCSSTK16\n");
 
     // BCSSTK17
-    double b[10974];
-    double init[10974];
+    double b_17[10974];
+    double init_17[10974];
     for (unsigned int i = 0; i < 10974; ++i)
     {
-        b[i] = 1;
-        init[i] = 1;
+        b_17[i] = 1;
+        init_17[i] = 1;
     }
-    double* FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk17.mtx");
-    printf("This worked\n");
+    FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk17.mtx");
     printf("Start BCSSTK17\n");
-    cg_solution = cg(10974,FFGE_matrix,b,init,epsilon,3);
+    cg_solution = cg(10974,FFGE_matrix,b_17,init_17,epsilon,0);
     free(FFGE_matrix);
     free(cg_solution);
     printf("Finished BCSSTK17\n");

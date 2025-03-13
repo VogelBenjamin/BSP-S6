@@ -41,7 +41,7 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 		vector_add(size,solution,search_direction,alpha,solution);
 
 		vector_copy(size,residual_prev,residual);
-		vector_add(size,residual_prev,intermediate_comp,alpha,residual);
+		vector_add(size,residual,intermediate_comp,alpha,residual);
 		
 		if(debug == 2){
 			printf("Current residual: ");
