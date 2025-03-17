@@ -32,7 +32,7 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 			printf("Unable to converge");
 			break;
 		}
-		if(debug == 2){
+		if(debug == 1 && i % 1000 == 0){
 			printf("Current epsilon: %lf \n",sqrt(dot_product(size, residual, residual)));
 		}
 		matrix_vector_mult(size,A,search_direction,intermediate_comp);

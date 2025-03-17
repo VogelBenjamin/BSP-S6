@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<assert.h>
-#include"../src/cg_serial.h"
+#include"../src/cg_cpu_parallel.h"
 #include"../../matrices/matrix_load.h"
 
 #define epsilon 1E-9

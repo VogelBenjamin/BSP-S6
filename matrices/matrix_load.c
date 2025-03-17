@@ -79,7 +79,7 @@ double* load_FFGE(char* path)
 
     for (i=0; i<nz; i++)
     {
-        fscanf(f, "%d %d %lg\n", &I[i], &J[i], &val[i]);
+        int scan_res2 = fscanf(f, "%d %d %lg\n", &I[i], &J[i], &val[i]);
         I[i]--;  /* adjust from 1-based to 0-based */
         J[i]--;
     }
@@ -90,7 +90,7 @@ double* load_FFGE(char* path)
     /* now write out matrix */
     /************************/
     printf("%d %d %d \n",M,N,nz);
-    double* return_matrix = (double*)malloc(sizeof(double)*M*N);
+    double* return_matrix = (double*)aligned_alloc(64,sizeof(double)*M*N);
     for (i=0; i<M ; ++i)
     {
         for (unsigned int j=0; j<N ; ++j)

@@ -9,28 +9,28 @@
 
 int main()
 {
-    // BCSSTK13
+    // BCSSTK17
     double* cg_solution;
     double* FFGE_matrix;
-    double b_13[2003];
-    double init_13[2003];
+    double b_17[10974];
+    double init_17[10974];
     float startTime;
     float endTime;
     float timeElapsed;
-    for (unsigned int i = 0; i < 2003; ++i)
+    for (unsigned int i = 0; i < 10974; ++i)
     {
-        b_13[i] = 1;
-        init_13[i] = 1;
+        b_17[i] = 1;
+        init_17[i] = 1;
     }
-    FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk13.mtx");
-    printf("Start BCSSTK13\n");
+    FFGE_matrix = load_FFGE("../../matrices/matrix_data/bcsstk17.mtx");
+    printf("Start BCSSTK17\n");
     startTime = (float)clock()/CLOCKS_PER_SEC;
-    cg_solution = cg(2003,FFGE_matrix,b_13,init_13,epsilon,3);
+    cg_solution = cg(10974,FFGE_matrix,b_17,init_17,epsilon,3);
     endTime = (float)clock()/CLOCKS_PER_SEC;
     timeElapsed = endTime - startTime;
     printf("Time elapsed: %f\n", timeElapsed);
     free(FFGE_matrix);
     free(cg_solution);
-    printf("Finished BCSSTK13\n");
+    printf("Finished BCSSTK17\n");
     return 0;
 }
