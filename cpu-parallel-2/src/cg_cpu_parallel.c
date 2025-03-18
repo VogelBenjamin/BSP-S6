@@ -35,10 +35,6 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 	scalar_vector_mult_inplace(size,search_direction,0);
 	scalar_vector_mult_inplace(size,intermediate_comp,0);
 
-		
-	double partial_num;
-	double partial_denum;
-	double partial_err;
 	vector_copy(size, solution, init_g);
 	
 	compute_residual(size, A, b, solution, residual);
@@ -78,15 +74,14 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 		beta = num / denum;
 
 		err = sqrt(num);
-		i++;
-		
-		
 		
 		vector_copy(size,intermediate_comp,residual);
 		
 		scalar_vector_mult_inplace(size,intermediate_comp,-1);
 		
 		vector_add(size,intermediate_comp,search_direction,beta,search_direction);
+
+		i++;
 	}
 	
 	printf("Number of iterations: %d\nFinal epsilon: %.12lf\n", i, err);
