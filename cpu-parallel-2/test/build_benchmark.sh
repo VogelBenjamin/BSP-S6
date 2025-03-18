@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -N 1
-#SBATCH -c 1
+#SBATCH -c 56
 #SBATCH --time=1:00:00
 
 module purge
