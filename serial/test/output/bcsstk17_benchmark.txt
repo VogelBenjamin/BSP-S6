@@ -1,6 +1,6 @@
 10974 10974 219812 
 Start BCSSTK17
-Unable to convergeNumber of iterations: 10975
-Final epsilon: 3627.905168178591
-Time elapsed: 12917.064453
+Number of iterations: 33336
+Final epsilon: 0.000000000999
+Time elapsed: 39366.121094
 Finished BCSSTK17

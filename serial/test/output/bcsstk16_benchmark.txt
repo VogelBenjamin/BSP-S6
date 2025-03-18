@@ -2,5 +2,5 @@
 Start BCSSTK16
 Number of iterations: 551
 Final epsilon: 0.000000000990
-Time elapsed: 128.562714
+Time elapsed: 129.415253
 Finished BCSSTK16
