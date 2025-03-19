@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -c 1
-#SBATCH --time=1:00:00
+#SBATCH --time=22:00:00
 
 module purge
 module load toolchain/foss/2020b
