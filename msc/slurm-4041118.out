@@ -1,0 +1,18 @@
+0 : NCPUt= 4
+0 : NTHRt= 4
+0 : NPRt= 4
+0 : hello user! I am thread 0 out of 4
+2 : hello user! I am thread 2 out of 4
+3 : hello user! I am thread 3 out of 4
+1 : hello user! I am thread 1 out of 4
+3 : hello user! I am thread 3 out of 8
+1 : hello user! I am thread 1 out of 8
+0 : NCPUt= 4
+0 : NTHRt= 8
+0 : NPRt= 8
+0 : hello user! I am thread 0 out of 8
+2 : hello user! I am thread 2 out of 8
+5 : hello user! I am thread 5 out of 8
+4 : hello user! I am thread 4 out of 8
+6 : hello user! I am thread 6 out of 8
+7 : hello user! I am thread 7 out of 8
