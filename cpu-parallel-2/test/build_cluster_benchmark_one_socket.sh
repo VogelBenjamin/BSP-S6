@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
-#SBATCH -c 56
-#SBATCH --socket-per-node=2
+#SBATCH -c 28
+#SBATCH --socket-per-node=1
 #SBATCH --time=22:00:00
 
 module purge
@@ -28,7 +28,7 @@ OUTPUT_DIR="output"
 mkdir -p "$OUTPUT_DIR"
 
 # Define the list of integers
-NUMBERS=(56 28 14 8 4 2 9 13 27 45 62)
+NUMBERS=(28 14 8 4 2 9 13 27 45)
 
 # Define the list of executables
 EXECUTABLES=("bin/bcsstk06.out" "bin/bcsstk13.out" "bin/bcsstk16.out", bin/bcsstk17.out)
