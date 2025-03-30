@@ -1,6 +1,0 @@
-10974 10974 219812 
-Start BCSSTK17
-Number of iterations: 30778
-Final epsilon: 0.000000000996
-Time elapsed: 5627.215820
-Finished BCSSTK17
