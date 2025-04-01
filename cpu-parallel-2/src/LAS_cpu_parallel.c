@@ -7,7 +7,7 @@
 double dot_product(unsigned int size, double* vector_1, double* vector_2)
 {
 	double acc = 0;
-	#pragma omp parallel for schedule(static, 8) reduction(+:acc)
+	#pragma omp parallel for schedule(static) reduction(+:acc)
 	for (unsigned int i = 0; i < size; ++i)
 	{
 		acc += vector_1[i]*vector_2[i]; 
@@ -17,16 +17,19 @@ double dot_product(unsigned int size, double* vector_1, double* vector_2)
 
 void matrix_vector_mult(unsigned int size, double* restrict matrix, double* restrict vector, double* restrict vector_storage)
 {
-	#pragma omp parallel for schedule(static, CACHE_LINE)
+	#pragma omp parallel for schedule(static)
 	for (unsigned int i = 0; i < size; ++i)
 	{
 		const double* row = &matrix[i * size];
 		double acc = 0;
-		#pragma omp simd aligned(matrix, vector : 64) reduction(+:acc)
-		for (unsigned int j = 0; j < size; ++j)
+		for (unsigned int j = 0; j < size; j += CACHE_LINE) 
 		{
-			acc += row[j]*vector[j];
-		}
+			  unsigned int end = (j + CACHE_LINE < size) ? j + CACHE_LINE : size;
+     		  #pragma omp simd reduction(+:acc)
+        	  for (unsigned int k = j; k < end; ++k) {
+            	    acc += row[k] * vector[k];
+          	  }
+        }
 		vector_storage[i] = acc;
 	}
 	return;
@@ -34,7 +37,7 @@ void matrix_vector_mult(unsigned int size, double* restrict matrix, double* rest
 
 void vector_add(unsigned int size, double* vector_1, double* vector_2, double alpha, double* vector_storage)
 {
-	#pragma omp parallel for schedule(static, CACHE_LINE)
+	#pragma omp parallel for schedule(static)
 	for (unsigned int i = 0; i < size; ++i)
 	{
 		vector_storage[i] = vector_1[i] + alpha*vector_2[i];	
@@ -44,7 +47,7 @@ void vector_add(unsigned int size, double* vector_1, double* vector_2, double al
 
 void vector_sub(unsigned int size, double* vector_1, double* vector_2, double alpha, double* vector_storage)
 {
-	#pragma omp parallel for schedule(static, CACHE_LINE)
+	#pragma omp parallel for schedule(static)
 	for (unsigned int i = 0; i < size; ++i)
 	{
 			vector_storage[i] = vector_1[i] - alpha*vector_2[i];
@@ -54,7 +57,7 @@ void vector_sub(unsigned int size, double* vector_1, double* vector_2, double al
 
 void vector_copy(unsigned int size, double* vector_out, double* vector_in)
 {
-	#pragma omp parallel for schedule(static, CACHE_LINE)
+	#pragma omp parallel for schedule(static)
 	for (unsigned int i = 0; i < size; ++i)
 	{
 			vector_out[i] = vector_in[i];
@@ -71,7 +74,7 @@ void compute_residual(unsigned int size, double* A, double* b, double* x, double
 
 void scalar_vector_mult_inplace(unsigned int size,double* vector, double alpha)
 {
-	#pragma omp parallel for schedule(static, CACHE_LINE)
+	#pragma omp parallel for schedule(static)
 	for (unsigned int i = 0; i < size; ++i)
 	{
 			vector[i] = alpha*vector[i];
