@@ -28,7 +28,7 @@ OUTPUT_DIR="output"
 mkdir -p "$OUTPUT_DIR"
 
 # Define the list of integers
-NUMBERS=(56 28 14 8 4 2 9 13 27 45 62)
+NUMBERS=(2 28 56 14 8 4 9 13 27 45 62)
 
 # Define the list of executables
 EXECUTABLES=("bin/bcsstk06.out" "bin/bcsstk13.out" "bin/bcsstk16.out", bin/bcsstk17.out)
@@ -39,7 +39,7 @@ for num in "${NUMBERS[@]}"; do
         exe_name=$(basename "$exe")
         # Execute the binary file with the integer as an argument
         # Redirect the output to a file named using the executable name and integer
-        ./$exe "$num" > "$OUTPUT_DIR/${exe_name}_$num.txt"
+        { time ./$exe "$num"; } &> "$OUTPUT_DIR/${exe_name}_$num.txt"
     done
 done
 
