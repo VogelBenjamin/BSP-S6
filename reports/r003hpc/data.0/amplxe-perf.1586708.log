@@ -1,0 +1,14 @@
+Using CPUID GenuineIntel-6-4F-1
+Compression enabled, disabling build id collection at the end of the session.
+nr_cblocks: 0
+affinity: SYS
+mmap flush: 1
+comp level: 1
+Problems creating module maps, continuing anyway...
+mmap size 528384B
+thread 0 monitor: 0-27 allowed: any
+cmd_pipe: /tmp/amplxe-tmp-bvogel/perf-pipe-1586702-184989165519124938
+
+1586709:perf-sync:ready:SYS=5455163520693395
+[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 0.015 MB /tmp/amplxe-tmp-bvogel/amplxe-res-1586702-184989165302736534/data.0/temp.dryrun.perf, compressed (original 0.002 MB, ratio is 2.917) ]

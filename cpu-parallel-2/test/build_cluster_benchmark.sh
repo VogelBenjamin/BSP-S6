@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -c 56
-#SBATCH --socket-per-node=2
+#SBATCH --sockets-per-node=2
 #SBATCH --time=22:00:00
 
 module purge
@@ -39,7 +39,7 @@ for num in "${NUMBERS[@]}"; do
         exe_name=$(basename "$exe")
         # Execute the binary file with the integer as an argument
         # Redirect the output to a file named using the executable name and integer
-        { time ./$exe "$num"; } &> "$OUTPUT_DIR/${exe_name}_$num.txt"
+        ( time ./$exe "$num"; ) &> "$OUTPUT_DIR/${exe_name}_$num.txt"
     done
 done
 

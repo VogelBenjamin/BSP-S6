@@ -1,0 +1,63 @@
+Using CPUID GenuineIntel-6-4F-1
+Compression enabled, disabling build id collection at the end of the session.
+path: /tmp/amplxe-tmp-bvogel/amplxe-res-1585100-184987935413695842/data.0
+basename: 1585112.perf
+nr_cblocks: 0
+affinity: SYS
+mmap flush: 1
+comp level: 1
+Problems creating module maps, continuing anyway...
+mmap size 528384B
+thread 0 monitor: 0 allowed: 0
+thread 1 monitor: 1 allowed: 1
+thread 2 monitor: 2 allowed: 2
+thread 3 monitor: 3 allowed: 3
+thread 4 monitor: 4 allowed: 4
+thread 5 monitor: 5 allowed: 5
+thread 6 monitor: 6 allowed: 6
+thread 7 monitor: 7 allowed: 7
+thread 8 monitor: 8 allowed: 8
+thread 9 monitor: 9 allowed: 9
+thread 10 monitor: 10 allowed: 10
+thread 11 monitor: 11 allowed: 11
+thread 12 monitor: 12 allowed: 12
+thread 13 monitor: 13 allowed: 13
+thread 14 monitor: 14 allowed: 14
+thread 15 monitor: 15 allowed: 15
+thread 16 monitor: 16 allowed: 16
+thread 17 monitor: 17 allowed: 17
+thread 18 monitor: 18 allowed: 18
+thread 19 monitor: 19 allowed: 19
+thread 20 monitor: 20 allowed: 20
+thread 21 monitor: 21 allowed: 21
+thread 22 monitor: 22 allowed: 22
+thread 23 monitor: 23 allowed: 23
+thread 24 monitor: 24 allowed: 24
+thread 25 monitor: 25 allowed: 25
+thread 26 monitor: 26 allowed: 26
+thread 27 monitor: 27 allowed: 27
+threads: failed to set affinity 2
+threads: failed to set affinity 4
+threads: failed to set affinity 6
+threads: failed to set affinity 8
+threads: failed to set affinity 10
+threads: failed to set affinity 12
+threads: failed to set affinity 14
+threads: failed to set affinity 16
+threads: failed to set affinity 17
+threads: failed to set affinity 18
+threads: failed to set affinity 19
+threads: failed to set affinity 21
+threads: failed to set affinity 20
+threads: failed to set affinity 22
+threads: failed to set affinity 23
+threads: failed to set affinity 24
+threads: failed to set affinity 26
+threads: failed to set affinity 25
+threads: failed to set affinity 0
+threads: failed to set affinity 27
+cmd_pipe: /tmp/amplxe-tmp-bvogel/perf-pipe-1585100-184987936560002550
+
+1585121:perf-sync:ready:SYS=5454650260072064
+[ perf record: Woken up 398 times to write data ]
+[ perf record: Captured and wrote 0.139 MB /tmp/amplxe-tmp-bvogel/amplxe-res-1585100-184987935413695842/data.0, compressed (original 0.628 MB, ratio is 7.678) ]

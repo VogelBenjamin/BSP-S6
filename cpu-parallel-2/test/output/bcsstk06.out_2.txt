@@ -1,0 +1,11 @@
+input 2, num_threads 2
+420 420 4140 
+Start BCSSTK06
+Number of iterations: 5306
+Final epsilon: 0.000000000773
+Time elapsed: 0.206263
+Finished BCSSTK06
+
+real	0m0.106s
+user	0m0.189s
+sys	0m0.019s

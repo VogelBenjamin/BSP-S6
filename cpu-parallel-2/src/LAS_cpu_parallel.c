@@ -22,13 +22,10 @@ void matrix_vector_mult(unsigned int size, double* restrict matrix, double* rest
 	{
 		const double* row = &matrix[i * size];
 		double acc = 0;
-		for (unsigned int j = 0; j < size; j += CACHE_LINE) 
+		#pragma omp simd reduction(+:acc)
+		for (unsigned int j = 0; j < size; ++j) 
 		{
-			  unsigned int end = (j + CACHE_LINE < size) ? j + CACHE_LINE : size;
-     		  #pragma omp simd reduction(+:acc)
-        	  for (unsigned int k = j; k < end; ++k) {
-            	    acc += row[k] * vector[k];
-          	  }
+            acc += row[j] * vector[j];
         }
 		vector_storage[i] = acc;
 	}
