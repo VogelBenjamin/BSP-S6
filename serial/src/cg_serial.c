@@ -64,7 +64,7 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 		vector_add(size,solution,search_direction,alpha,solution);
 		
 		// determine new residual
-		vector_copy(size,residual_prev,residual);
+		//vector_copy(size,residual_prev,residual);
 		
 		vector_add(size,residual,intermediate_comp,alpha,residual);
 
