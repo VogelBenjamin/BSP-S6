@@ -26,24 +26,32 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 	search_direction = (double*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(double)*size);
 	intermediate_comp = (double*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(double)*size);
 
+	// init vectors to 0
 	scalar_vector_mult_inplace(size,solution,0);
 	scalar_vector_mult_inplace(size,residual,0);
 	scalar_vector_mult_inplace(size,residual_prev,0);
 	scalar_vector_mult_inplace(size,search_direction,0);
 	scalar_vector_mult_inplace(size,intermediate_comp,0);
 
-
+	// set current solution to inital guess
 	vector_copy(size, solution, init_g);
+
+	// compute residual
 	compute_residual(size, A, b, solution, residual);
+	
+	// determine search direction
 	vector_copy(size,search_direction,residual);
 	scalar_vector_mult_inplace(size,search_direction,-1);
-
+	
+	// compute error measure
 	err = dot_product(size, residual, residual);
 
 	err = sqrt(err);
-
+	
+	// iterate until error measurement is below epsilon
 	while (err > epsilon){
 		
+		// compute optimal step size alpha
 		matrix_vector_mult(size,A,search_direction,intermediate_comp);
 		
 		num = dot_product(size, residual, residual);
@@ -51,13 +59,16 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 		denum = dot_product(size, search_direction, intermediate_comp);
 		
 		alpha =  num / denum;
-	
+		
+		// update solution 
 		vector_add(size,solution,search_direction,alpha,solution);
 		
+		// determine new residual
 		vector_copy(size,residual_prev,residual);
 		
 		vector_add(size,residual,intermediate_comp,alpha,residual);
 
+		// determine optimal beta
 		denum = num;
 		
 		num = dot_product(size, residual,residual);
@@ -65,9 +76,11 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 		//denum = dot_product(size, residual_prev, residual_prev);
 
 		beta = num / denum;
-
+		
+		// compute error for next iteration
 		err = sqrt(num);
 		
+		// update search direction
 		vector_copy(size,intermediate_comp,residual);
 		
 		scalar_vector_mult_inplace(size,intermediate_comp,-1);
