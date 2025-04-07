@@ -1,1 +1,1 @@
-double* cg(unsigned int size, double* A, double* b, double* init_g, double epsilon, int debug);
+float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, int debug);

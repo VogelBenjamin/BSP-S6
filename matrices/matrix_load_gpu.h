@@ -1,0 +1,1 @@
+float* load_FFGE_float(char* path);

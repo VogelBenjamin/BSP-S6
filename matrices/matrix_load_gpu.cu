@@ -1,41 +1,16 @@
-/* 
-*   Matrix Market I/O example program
-*
-*   Read a real (non-complex) sparse matrix from a Matrix Market (v. 2.0) file.
-*   and copies it to stdout.  This porgram does nothing useful, but
-*   illustrates common usage of the Matrix Matrix I/O routines.
-*   (See http://math.nist.gov/MatrixMarket for details.)
-*
-*   Usage:  a.out [filename] > output
-*
-*       
-*   NOTES:
-*
-*   1) Matrix Market files are always 1-based, i.e. the index of the first
-*      element of a matrix is (1,1), not (0,0) as in C.  ADJUST THESE
-*      OFFSETS ACCORDINGLY offsets accordingly when reading and writing 
-*      to files.
-*
-*   2) ANSI C requires one to use the "l" format modifier when reading
-*      double precision floating point numbers in scanf() and
-*      its variants.  For example, use "%lf", "%lg", or "%le"
-*      when reading doubles, otherwise errors will occur.
-*/
-
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "matrix_load.h"
-#include "mmio.h"
+#include "mmio_gpu.h"
+#include "matrix_load_gpu.h"
 
-double* load_FFGE(char* path)
+float* load_FFGE_float(char* path)
 {
     int ret_code;
     MM_typecode matcode;
     FILE *f;
     int M, N, nz;   
     int i, *I, *J;
-    double *val;
+    double* val;
 
     
     if ((f = fopen(path, "r")) == NULL) 
@@ -91,18 +66,18 @@ double* load_FFGE(char* path)
     /* now write out matrix */
     /************************/
     printf("%d %d %d \n",M,N,nz);
-    double* return_matrix = (double*)aligned_alloc(64,sizeof(double)*M*N);
+    float* return_matrix = (float*)aligned_alloc(64,sizeof(float)*M*N);
     for (i=0; i<M ; ++i)
     {
         for (unsigned int j=0; j<N ; ++j)
         {
-            return_matrix[i*M+j] = 0;
+            return_matrix[i*M+j] = 0.0f;
         }
     }
     for (i=0; i<nz; i++)
     {
-        return_matrix[I[i]*M+J[i]] = val[i];
-        return_matrix[J[i]*M+I[i]] = val[i];
+        return_matrix[I[i]*M+J[i]] = (float)val[i];
+        return_matrix[J[i]*M+I[i]] = (float)val[i];
     }
     free(I);
     free(J);
@@ -110,4 +85,3 @@ double* load_FFGE(char* path)
 
 	return return_matrix;
 }
-

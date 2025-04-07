@@ -1,28 +1,35 @@
-#include"cg_cpu_parallel.h"
-#include"LAS_cpu_parallel.h"
+#include"cg_gpu_parallel.h"
+#include"LAS_gpu_parallel.h"
 #include<stdlib.h>
 #include<stdio.h>
 #include<math.h>
+#include<cuda.h>
 
 #define CACHE_BLOCK_SIZE 64 // bytes
 #define BLOCK_DIM 32
 // compute step size
 
 
-// check where to use restrict
+// check where to use 
 float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, int debug)
 {
-	float* restrict solution;
-	float* restrict residual;
-	float* restrict residual_prev;
-	float* restrict search_direction;
-	float* restrict intermediate_comp;
+	float*  solution;
+	float*  residual;
+	float*  residual_prev;
+	float*  search_direction;
+	float*  intermediate_comp;
 	float alpha;
 	float beta;
 	float num;
 	float denum;
 	float err;
 	int i = 0;
+
+	
+	dim3 GridDim(ceil(size/BLOCK_DIM),ceil(size/BLOCK_DIM),1);
+    dim3 BlockDim(BLOCK_DIM,BLOCK_DIM,1);
+
+
 	solution = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 	residual = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 	residual_prev = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
@@ -39,7 +46,7 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 	vector_copy(size, solution, init_g);
 	
-	compute_residual(size, A, b, solution, residual);
+	compute_residual_gpu(size, A, b, solution, residual,GridDim,BlockDim);
 	
 	vector_copy(size,search_direction,residual);
 	
@@ -49,20 +56,15 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 	err = sqrt(err);
 
-    float* d_A, d_sd, d_ic;
-    cudaMalloc(&d_A, sizeof(float)*size*size);
-    cudaMalloc(&d_sd, sizeof(float)*size);
-    cudaMalloc(&d_ic, sizeof(float)*size);
-
-    
-
-    dim3 GridDim(ceil(size/BLOCK_DIM),ceil(size/BLOCK_DIM),1);
-    dim3 BlockDim(BLOCK_DIM,BLOCK_DIM,1);
+    float* d_A, *d_sd, *d_ic;
+    cudaMalloc((void**)&d_A, sizeof(float)*size*size);
+    cudaMalloc((void**)&d_sd, sizeof(float)*size);
+    cudaMalloc((void**)&d_ic, sizeof(float)*size);
 
 	while (err > epsilon)
 	{
 		
-		cudaMemcpy(d_A, A, sizeof(float)*size*size, cudaMemcpyHostToDevice);
+	cudaMemcpy(d_A, A, sizeof(float)*size*size, cudaMemcpyHostToDevice);
         cudaMemcpy(d_sd, search_direction, sizeof(float)*size, cudaMemcpyHostToDevice);
 		
         matrix_vector_mult<<<GridDim,BlockDim>>>(size,A,search_direction,intermediate_comp);
