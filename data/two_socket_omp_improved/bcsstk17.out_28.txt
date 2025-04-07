@@ -1,0 +1,11 @@
+input 28, num_threads 28
+10974 10974 219812 
+Start BCSSTK17
+Number of iterations: 30455
+Final epsilon: 0.000000000876
+Time elapsed: 11428.977539
+Finished BCSSTK17
+
+real	7m10.894s
+user	190m24.045s
+sys	0m5.354s

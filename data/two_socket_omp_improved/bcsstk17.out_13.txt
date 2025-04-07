@@ -1,0 +1,5 @@
+/var/lib/slurmd/job4094082/slurm_script: line 40: 426405 Illegal instruction     (core dumped) ./$exe "$num"
+
+real	0m0.489s
+user	0m0.172s
+sys	0m0.229s

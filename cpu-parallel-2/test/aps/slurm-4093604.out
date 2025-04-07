@@ -1,0 +1,12 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) env/release/default
+input 28, num_threads 28
+10974 10974 219812 
+Start BCSSTK17
+Number of iterations: 30754
+Final epsilon: 0.000000000922
+Time elapsed: 8071.378418
+Finished BCSSTK17
+Intel(R) VTune(TM) Profiler 2020 collection completed successfully. Use the "aps --report=/mnt/aiongpfs/users/bvogel/BSP-S6/cpu-parallel-2/test/aps/aps_result_20250405" command to generate textual and HTML reports for the profiling session.

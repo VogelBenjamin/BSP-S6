@@ -1,0 +1,10 @@
+4884 4884 147631 
+Start BCSSTK16
+Number of iterations: 549
+Final epsilon: 0.000000000976
+Time elapsed: 53.256920
+Finished BCSSTK16
+
+real	0m54.122s
+user	0m53.491s
+sys	0m0.116s
