@@ -1,6 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -c 1
+#SBATCH -G 1
 #SBATCH --time=01:00:00
 #SBATCH --partition=gpu  
 module purge

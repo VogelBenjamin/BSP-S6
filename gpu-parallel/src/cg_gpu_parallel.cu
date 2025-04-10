@@ -11,7 +11,7 @@
 
 
 // check where to use 
-float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, int debug)
+extern "C" float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, int debug)
 {
 	float*  solution;
 	float*  residual;
@@ -24,7 +24,7 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 	float denum;
 	float err;
 	int i = 0;
-        printf("Size : %d \n", size);
+    printf("Size : %d \n", size);
 	printf("Grid: %d , Block: %d\n", (size + BLOCK_DIM - 1) / BLOCK_DIM, BLOCK_DIM);	
 	dim3 GridDim( (size + BLOCK_DIM - 1) / BLOCK_DIM ,1,1);
 	dim3 BlockDim(BLOCK_DIM,1,1);

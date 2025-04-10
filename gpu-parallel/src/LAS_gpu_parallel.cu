@@ -1,7 +1,6 @@
 #include"LAS_gpu_parallel.h"
 #include<cuda.h>
 
-#include<cuda.h>
 #include<stdio.h>
 #include<stdlib.h>
 
