@@ -9,19 +9,25 @@
 __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* vector_storage)
 {
 	int row = blockDim.x*blockIdx.x + threadIdx.x;
-  //int col = blockDim.y*blockIdx.y + threadIdx.y
+  	//int col = blockDim.y*blockIdx.y + threadIdx.y
 
-  if (row < size)
-  {
-      float acc = 0;
-      for (int i = 0; i < size; ++i)
-      {
-          acc += matrix[row*size+i]*vector[row];
-      }
-      vector_storage[row] = acc;
-  }
-	__syncthreads();
+    	if (row < size)
+	{
+		float acc = 0;
+		for (int i = 0; i < size; ++i)
+		{
+			acc += matrix[row*size+i]*vector[i];
+		}
+		vector_storage[row] = acc;
+		//printf("vector_storage[%d] = %f\n", row, acc);
+	}
+	
 	return;
+}
+
+__global__ void test_access(float* vec) {
+    int idx = blockDim.x * blockIdx.x + threadIdx.x;
+    if (idx == 0) printf("vec[0] = %f\n", vec[0]);
 }
 
 float dot_product(unsigned int size, float* vector_1, float* vector_2)

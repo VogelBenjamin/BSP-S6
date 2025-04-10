@@ -1,4 +1,5 @@
 __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* vector_storage);
+__global__ void test_access(float* vec);
 float dot_product(unsigned int size, float* vector_1, float* vector_2);
 void vector_add(unsigned int size, float* vector_1, float* vector_2, float alpha, float* vector_storage);
 void vector_sub(unsigned int size, float* vector_1, float* vector_2, float alpha, float* vector_storage);
