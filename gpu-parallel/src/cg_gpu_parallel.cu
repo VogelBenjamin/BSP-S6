@@ -11,7 +11,7 @@
 
 
 // check where to use 
-extern "C" float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, int debug)
+float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, int debug)
 {
 	float*  solution;
 	float*  residual;

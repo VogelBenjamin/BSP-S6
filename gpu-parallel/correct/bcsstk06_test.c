@@ -3,7 +3,7 @@
 #include<assert.h>
 #include<time.h>
 #include"../src/cg_gpu_parallel.h"
-#include"../../matrices/matrix_load_gpu.h"
+#include"../../matrices/matrix_load.h"
 
 #define epsilon 1E-9
 

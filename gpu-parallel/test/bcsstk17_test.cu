@@ -10,10 +10,10 @@
 int main()
 {
     // BCSSTK17
-    double* cg_solution;
-    double* FFGE_matrix;
-    double b_17[10974];
-    double init_17[10974];
+    float* cg_solution;
+    float* FFGE_matrix;
+    float b_17[10974];
+    float init_17[10974];
     float startTime;
     float endTime;
     float timeElapsed;
