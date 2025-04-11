@@ -41,7 +41,7 @@ mv main3 ./bin
 
 # test 4
 echo test4
-gcc -c cg_m.c -o cg_m.o
+nvcc -c cg_m.cu -o cg_m.o
 mv cg_m.o ./objects
 nvcc -c ../src/LAS_gpu_parallel.cu -o LAS_gpu_parallel.o
 mv LAS_gpu_parallel.o ./objects

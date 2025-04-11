@@ -36,7 +36,10 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 	search_direction = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 	intermediate_comp = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 
-
+	float* d_A, *d_sd, *d_ic;
+	cudaMalloc((void**)&d_A, sizeof(float)*size*size);
+	cudaMalloc((void**)&d_sd, sizeof(float)*size);
+	cudaMalloc((void**)&d_ic, sizeof(float)*size);
 
 	scalar_vector_mult_inplace(size,solution,0);
 	scalar_vector_mult_inplace(size,residual,0);
@@ -46,7 +49,18 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 	vector_copy(size, solution, init_g);
 	
-	compute_residual_gpu(size, A, b, solution, residual,GridDim,BlockDim);
+	cudaMemcpy(d_A, A, sizeof(float)*size*size, cudaMemcpyHostToDevice);
+	cudaMemcpy(d_sd, solution, sizeof(float)*size, cudaMemcpyHostToDevice);
+	cudaMemcpy(d_ic, residual, sizeof(float)*size, cudaMemcpyHostToDevice);
+
+	// residual calc
+	// A = d_A , d_sd = solution , d_ic = residual
+	matrix_vector_mult<<<GridDim,BlockDim>>>(size,d_A,d_sd, d_ic);
+
+	cudaMemcpy(residual, d_ic, sizeof(float)*size, cudaMemcpyDeviceToHost);
+
+	vector_sub(size,residual,b,1.0,residual);	
+
 	cudaDeviceSynchronize();
 	vector_copy(size,search_direction,residual);
 	
@@ -56,31 +70,25 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 	err = sqrt(err);
 
-    	float* d_A, *d_sd, *d_ic;
-    	//cudaMalloc((void**)&d_A, sizeof(float)*size*size);
-    	cudaError_t erra;
-	erra = cudaMalloc((void**)&d_A, sizeof(float)*size*size);
-	if (erra != cudaSuccess) printf("cudaMalloc d_A failed: %s\n", cudaGetErrorString(erra));
-	cudaMalloc((void**)&d_sd, sizeof(float)*size);
-    	cudaMalloc((void**)&d_ic, sizeof(float)*size);
-	cudaMemcpy(d_A, A, sizeof(float)*size*size, cudaMemcpyHostToDevice);
+	
 
 	while (err > epsilon)
 	{
 		
-		printf("iteration %d\n",i);
-        	cudaMemcpy(d_sd, search_direction, sizeof(float)*size, cudaMemcpyHostToDevice);
+        cudaMemcpy(d_sd, search_direction, sizeof(float)*size, cudaMemcpyHostToDevice);
 		cudaMemcpy(d_ic, intermediate_comp, sizeof(float)*size, cudaMemcpyHostToDevice);
-		if (d_A == NULL || d_sd == NULL || d_ic == NULL) {
- 		   printf("Device pointers not allocated correctly\n");
-		}
+
 		printf("Launching kernel with GridDim=%d, BlockDim=%d\n", GridDim, BlockDim);
+
 		test_access<<<GridDim,BlockDim>>>(d_sd);
+
 		cudaDeviceSynchronize();
+
 		cudaError_t errs = cudaPeekAtLastError();
 		if (errs != cudaSuccess)
     			printf("Pre-launch error: %s\n", cudaGetErrorString(errs));		
-        	matrix_vector_mult<<<GridDim,BlockDim>>>(size,d_A,d_sd,d_ic);
+
+        matrix_vector_mult<<<GridDim,BlockDim>>>(size,d_A,d_sd,d_ic);
 		
 		cudaDeviceSynchronize();
 		cudaError_t errc = cudaGetLastError();

@@ -75,13 +75,6 @@ void scalar_vector_mult_inplace(unsigned int size,float* vector, float alpha)
     return;
 }
 
-void compute_residual_gpu(unsigned int size, float* A, float* b, float* x, float* vector_storage, dim3 GridDim, dim3 BlockDim)
-{
-	matrix_vector_mult<<<GridDim,BlockDim>>>(size,A,x,vector_storage);
-	vector_sub(size,vector_storage,b,1.0,vector_storage);
-	return;
-}
-
 void print_vector(unsigned int size, float* vector)
 {
 	for (unsigned int i = 0; i < size; ++i)
