@@ -6,7 +6,7 @@
 #include<cuda.h>
 
 #define CACHE_BLOCK_SIZE 64 // bytes
-#define BLOCK_DIM 32
+#define BLOCK_DIM 64
 // compute step size
 
 
@@ -29,20 +29,18 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 	dim3 GridDim( (size + BLOCK_DIM - 1) / BLOCK_DIM ,1,1);
 	dim3 BlockDim(BLOCK_DIM,1,1);
 
-	// allocate host data
+
 	solution = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 	residual = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 	residual_prev = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 	search_direction = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 	intermediate_comp = (float*)aligned_alloc(CACHE_BLOCK_SIZE, sizeof(float)*size);
 
-	// allocate device data
 	float* d_A, *d_sd, *d_ic;
 	cudaMalloc((void**)&d_A, sizeof(float)*size*size);
 	cudaMalloc((void**)&d_sd, sizeof(float)*size);
 	cudaMalloc((void**)&d_ic, sizeof(float)*size);
 
-	// initialise host data
 	scalar_vector_mult_inplace(size,solution,0);
 	scalar_vector_mult_inplace(size,residual,0);
 	scalar_vector_mult_inplace(size,residual_prev,0);
@@ -51,7 +49,6 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 	vector_copy(size, solution, init_g);
 	
-	// initialise device data
 	cudaMemcpy(d_A, A, sizeof(float)*size*size, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_sd, solution, sizeof(float)*size, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_ic, residual, sizeof(float)*size, cudaMemcpyHostToDevice);
@@ -59,12 +56,12 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 	// residual calc
 	// A = d_A , d_sd = solution , d_ic = residual
 	matrix_vector_mult<<<GridDim,BlockDim>>>(size,d_A,d_sd, d_ic);
-	cudaDeviceSynchronize();
+
 	cudaMemcpy(residual, d_ic, sizeof(float)*size, cudaMemcpyDeviceToHost);
 
 	vector_sub(size,residual,b,1.0,residual);	
 
-	
+	cudaDeviceSynchronize();
 	vector_copy(size,search_direction,residual);
 	
 	scalar_vector_mult_inplace(size,search_direction,-1);
@@ -81,9 +78,6 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
         cudaMemcpy(d_sd, search_direction, sizeof(float)*size, cudaMemcpyHostToDevice);
 		cudaMemcpy(d_ic, intermediate_comp, sizeof(float)*size, cudaMemcpyHostToDevice);
 
-		printf("Launching kernel with GridDim=%d, BlockDim=%d\n", GridDim, BlockDim);
-
-		test_access<<<GridDim,BlockDim>>>(d_sd);
 
 		cudaDeviceSynchronize();
 
@@ -128,7 +122,6 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 		i++;
 	}
-	
 	printf("Number of iterations: %d\nFinal epsilon: %.12lf\n", i, err);
 	free(residual);
 	free(residual_prev);

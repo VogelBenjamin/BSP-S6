@@ -3,17 +3,17 @@
 #include<assert.h>
 #include<time.h>
 #include"../src/cg_gpu_parallel.h"
-#include"../../matrices/matrix_load.h"
+#include"../../matrices/matrix_load_gpu.h"
 
 #define epsilon 1E-9
 
 int main()
 {
     // BCSSTK17
-    float* cg_solution;
-    float* FFGE_matrix;
-    float b_17[10974];
-    float init_17[10974];
+    double* cg_solution;
+    double* FFGE_matrix;
+    double b_17[10974];
+    double init_17[10974];
     float startTime;
     float endTime;
     float timeElapsed;
