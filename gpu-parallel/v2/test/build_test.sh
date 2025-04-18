@@ -11,8 +11,8 @@ module load system/CUDA
 # bccstk06
 echo Building bccstk06
 gcc -c bcsstk06_test.c -o bcsstk06.o
-gcc -c ../../matrices/matrix_load.c -o matrix_load.o
-gcc -c ../../matrices/mmio.c -o mmio.o
+gcc -c ../../../matrices/matrix_load.c -o matrix_load.o
+gcc -c ../../../matrices/mmio.c -o mmio.o
 
 nvcc -c ../src/LAS_gpu_parallel.cu -o LAS_gpu_parallel.o
 nvcc -c ../src/cg_gpu_parallel.cu -o cg_gpu_parallel.o

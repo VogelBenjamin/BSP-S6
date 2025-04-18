@@ -8,7 +8,7 @@
 // assume 1d Grid and 1d Block
 __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* vector_storage)
 {
-	__shared__ float cache[TILE_SIZE]; 
+	__shared__ float tile[TILE_SIZE]; 
 
 	int row = blockDim.x*blockIdx.x + threadIdx.x;
 	int tidx = threadIdx.x;
@@ -20,19 +20,24 @@ __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vect
 		
 		float acc = 0.0f;
 
-		for (int i = 0; i < (size+TILE_SIZE); i+= TILE_SIZE)
+		for (int i = 0; i < (size+TILE_SIZE); i += TILE_SIZE)
 		{
+      // load vector into shared memory
 			for (int j = 0; j < elem_per_thread; j++)
 			{
-				int idx = tidx+j*bdim;
-				if (i+idx < size && idx < TILE_SIZE)
-					cache[idx] = vector[i+idx];
+				int idx = i + tidx + j * bdim; 
+          if (idx < size) 
+              tile[tidx + j * bdim] = vector[idx];
+          else 
+              tile[tidx + j * bdim] = 0.0f;
 			}
 			__syncthreads();
 
+      // accumulation
 			for (int j = 0; j < TILE_SIZE; ++j)
 			{
-				acc += matrix[row*size+i+j]*cache[j];
+				if (i + j < size)
+					acc += matrix[row*size+i+j]*tile[j];
 			}
 
 			__syncthreads();

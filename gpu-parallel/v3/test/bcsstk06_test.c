@@ -22,7 +22,7 @@ int main()
         b_06[i] = 1;
         init_06[i] = 1;
     }
-    FFGE_matrix = load_FFGE_float("../../matrices/matrix_data/bcsstk06.mtx");
+    FFGE_matrix = load_FFGE_float("../../../matrices/matrix_data/bcsstk06.mtx");
     printf("Start BCSSTK06\n");
     startTime = (float)clock()/CLOCKS_PER_SEC;
     cg_solution = cg(420,FFGE_matrix,b_06,init_06,epsilon,0);

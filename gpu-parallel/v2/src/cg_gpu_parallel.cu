@@ -48,22 +48,23 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 
 	// initialise host data
-	scalar_vector_mult_inplace(size,solution,0);
-	scalar_vector_mult_inplace(size,residual,0);
-	scalar_vector_mult_inplace(size,residual_prev,0);
-	scalar_vector_mult_inplace(size,search_direction,0);
-	scalar_vector_mult_inplace(size,intermediate_comp,0);
+	scalar_vector_mult_inplace<<<GridDim,BlockDim>>>(size,d_sol,0);
+	scalar_vector_mult_inplace<<<GridDim,BlockDim>>>(size,d_res,0);
+	scalar_vector_mult_inplace<<<GridDim,BlockDim>>>(size,d_resp,0);
+	scalar_vector_mult_inplace<<<GridDim,BlockDim>>>(size,d_sd,0);
+	scalar_vector_mult_inplace<<<GridDim,BlockDim>>>(size,d_ic,0);
 
-	vector_copy(size, solution, init_g);
+	vector_copy<<<GridDim,BlockDim>>>(size, solution, init_g);
 	
 	// initialise device data
+	/*
 	cudaMemcpy(d_A, A, sizeof(float)*size*size, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_b, b, sizeof(float)*size, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_sd, solution, sizeof(float)*size, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_ic, intermediate_comp, sizeof(float)*size, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_res, residual, sizeof(float)*size, cudaMemcpyHostToDevice);
 	cudaMemcpy(d_resp, residual_prev, sizeof(float)*size, cudaMemcpyHostToDevice);
-
+	*/
 	// residual calc
 	// A = d_A , d_sd = solution , d_ic = residual
 	matrix_vector_mult<<<GridDim,BlockDim>>>(size,d_A,d_sd,d_res);
