@@ -4,50 +4,35 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#define TILE_SIZE 256
-// assume 1d Grid and 1d Block
-__global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* vector_storage)
-{
-	__shared__ float tile[TILE_SIZE]; 
+__global__ void matrix_vector_mult(unsigned int size, const float* matrix, const float* vector, float* result) {
+    __shared__ float vector_tile[TILE_SIZE];
+    
+    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    float acc = 0.0f;
 
-	int row = blockDim.x*blockIdx.x + threadIdx.x;
-	int tidx = threadIdx.x;
-	int bdim = blockDim.x;
-	int elem_per_thread = (TILE_SIZE + blockDim.x - 1) / blockDim.x;
-	
-    if (row < size)
-	{	
-		
-		float acc = 0.0f;
+    if (row < size) {
+        // Each thread computes one element of the result vector
+        for (int tile_start = 0; tile_start < size; tile_start += TILE_SIZE) {
+            int tile_end = min(tile_start + TILE_SIZE, size);
+            int tile_size = tile_end - tile_start;
+            
+            // Cooperative loading of the vector tile into shared memory
+            for (int i = threadIdx.x; i < tile_size; i += blockDim.x) {
+                vector_tile[i] = vector[tile_start + i];
+            }
+            __syncthreads();
 
-		for (int i = 0; i < (size+TILE_SIZE); i += TILE_SIZE)
-		{
-      // load vector into shared memory
-			for (int j = 0; j < elem_per_thread; j++)
-			{
-				int idx = i + tidx + j * bdim; 
-          if (idx < size) 
-              tile[tidx + j * bdim] = vector[idx];
-          else 
-              tile[tidx + j * bdim] = 0.0f;
-			}
-			__syncthreads();
-
-      // accumulation
-			for (int j = 0; j < TILE_SIZE; ++j)
-			{
-				if (i + j < size)
-					acc += matrix[row*size+i+j]*tile[j];
-			}
-
-			__syncthreads();
-		}
-		vector_storage[row] = acc;
-		//printf("vector_storage[%d] = %f\n", row, acc);
-	}
-	
-	return;
+            // Compute partial product for this tile
+            for (int j = 0; j < tile_size; j++) {
+                acc += matrix[row * size + tile_start + j] * vector_tile[j];
+            }
+            __syncthreads();
+        }
+        
+        result[row] = acc;
+    }
 }
+
 
 __global__ void test_access(float* vec) {
     int idx = blockDim.x * blockIdx.x + threadIdx.x;
