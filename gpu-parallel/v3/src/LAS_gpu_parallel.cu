@@ -4,9 +4,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-__global__ void matrix_vector_mult(unsigned int size, const float* matrix, const float* vector, float* result) {
+#define TILE_SIZE 256
+
+__global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* result)
+{
     __shared__ float vector_tile[TILE_SIZE];
-    
+
     int row = blockIdx.x * blockDim.x + threadIdx.x;
     float acc = 0.0f;
 
@@ -14,21 +17,20 @@ __global__ void matrix_vector_mult(unsigned int size, const float* matrix, const
         // Each thread computes one element of the result vector
         for (int tile_start = 0; tile_start < size; tile_start += TILE_SIZE) {
             int tile_end = min(tile_start + TILE_SIZE, size);
-            int tile_size = tile_end - tile_start;
-            
-            // Cooperative loading of the vector tile into shared memory
-            for (int i = threadIdx.x; i < tile_size; i += blockDim.x) {
+            int valid_tile_size = tile_end - tile_start;
+
+            // Cooperative loading of vector tile into shared memory
+            for (int i = threadIdx.x; i < valid_tile_size; i += blockDim.x) {
                 vector_tile[i] = vector[tile_start + i];
             }
             __syncthreads();
 
-            // Compute partial product for this tile
-            for (int j = 0; j < tile_size; j++) {
-                acc += matrix[row * size + tile_start + j] * vector_tile[j];
+            // Compute partial sum for this tile
+            for (int j = 0; j < valid_tile_size; j++) {
+                acc += matrix[row * size + (tile_start + j)] * vector_tile[j];
             }
             __syncthreads();
         }
-        
         result[row] = acc;
     }
 }
