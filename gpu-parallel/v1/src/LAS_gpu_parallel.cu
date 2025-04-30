@@ -5,10 +5,9 @@
 #include<stdlib.h>
 
 // assume 1d Grid and 1d Block
-#define TILE_SIZE 256
-
-__global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* result)
+__global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* vector_storage)
 {
+<<<<<<< HEAD
   __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* vector_storage)
   {
       int row = blockDim.x*blockIdx.x + threadIdx.x;
@@ -27,6 +26,23 @@ __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vect
 
       return;
   }
+=======
+	int row = blockDim.x*blockIdx.x + threadIdx.x;
+  	//int col = blockDim.y*blockIdx.y + threadIdx.y
+
+    	if (row < size)
+	{
+		float acc = 0;
+		for (int i = 0; i < size; ++i)
+		{
+			acc += matrix[row*size+i]*vector[i];
+		}
+		vector_storage[row] = acc;
+		//printf("vector_storage[%d] = %f\n", row, acc);
+	}
+	
+	return;
+>>>>>>> 15caaa05589a4119ffefa63a60776a11b54d0167
 }
 
 __global__ void test_access(float* vec) {
