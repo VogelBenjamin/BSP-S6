@@ -74,7 +74,7 @@ float* cg(unsigned int size, float* A, float* b, float* init_g, float epsilon, i
 
 	while (err > epsilon)
 	{
-		
+		printf("Err %f\n", err);
         cudaMemcpy(d_sd, search_direction, sizeof(float)*size, cudaMemcpyHostToDevice);
 		cudaMemcpy(d_ic, intermediate_comp, sizeof(float)*size, cudaMemcpyHostToDevice);
 

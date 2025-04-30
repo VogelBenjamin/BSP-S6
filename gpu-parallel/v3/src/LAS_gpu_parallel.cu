@@ -4,33 +4,39 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#define TILE_SIZE 256
+#define TILE_SIZE 64
 
 __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vector, float* result)
 {
     __shared__ float vector_tile[TILE_SIZE];
-
+    
     int row = blockIdx.x * blockDim.x + threadIdx.x;
     float acc = 0.0f;
 
-    if (row < size) {
-        // Each thread computes one element of the result vector
-        for (int tile_start = 0; tile_start < size; tile_start += TILE_SIZE) {
-            int tile_end = min(tile_start + TILE_SIZE, size);
-            int valid_tile_size = tile_end - tile_start;
-
-            // Cooperative loading of vector tile into shared memory
-            for (int i = threadIdx.x; i < valid_tile_size; i += blockDim.x) {
-                vector_tile[i] = vector[tile_start + i];
-            }
-            __syncthreads();
-
-            // Compute partial sum for this tile
-            for (int j = 0; j < valid_tile_size; j++) {
-                acc += matrix[row * size + (tile_start + j)] * vector_tile[j];
-            }
-            __syncthreads();
+    // Process all tiles, ensuring all threads participate in synchronization
+    for (int tile_base = 0; tile_base < size; tile_base += TILE_SIZE) {
+        int tile_end = min(tile_base + TILE_SIZE, size);
+        
+        // Load the current tile of the vector into shared memory
+        for (int i = threadIdx.x; i < TILE_SIZE; i += blockDim.x) {
+            vector_tile[i] = (tile_base + i < size) ? vector[tile_base + i] : 0.0f;
         }
+        __syncthreads();
+
+        // Compute partial sum for valid rows
+        if (row < size) {
+            for (int j = 0; j < TILE_SIZE; j++) {
+                int col = tile_base + j;
+                if (col < size) {
+                    acc += matrix[row * size + col] * vector_tile[j];
+                }
+            }
+        }
+        __syncthreads(); // Ensure all threads finish before next tile
+    }
+
+    // Store result for valid rows
+    if (row < size) {
         result[row] = acc;
     }
 }
