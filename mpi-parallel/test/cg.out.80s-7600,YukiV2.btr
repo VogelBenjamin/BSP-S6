@@ -1,0 +1,7 @@
+
+cg.out:7600 terminated with signal 11 at PC=7f2f544d8b52 SP=7ffe8d0d6090.  Backtrace:
+/lib/x86_64-linux-gnu/libc.so.6(fread+0x22)[0x7f2f544d8b52]
+./bin/cg.out(+0x183a)[0x55e3ec9f883a]
+/lib/x86_64-linux-gnu/libc.so.6(+0x29d90)[0x7f2f54482d90]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80)[0x7f2f54482e40]
+./bin/cg.out(+0x1325)[0x55e3ec9f8325]

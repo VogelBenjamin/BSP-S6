@@ -42,12 +42,12 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 	// determine search direction
 	vector_copy(size,search_direction,residual);
 	scalar_vector_mult_inplace(size,search_direction,-1);
-	
+	//print_vector(size,residual);
 	// compute error measure
 	err = dot_product(size, residual, residual);
 
 	err = sqrt(err);
-	
+	//printf("First error: %lf\n",err);
 	// iterate until error measurement is below epsilon
 	while (err > epsilon){
 		
@@ -86,6 +86,8 @@ double* cg(unsigned int size, double* A, double* b, double* init_g, double epsil
 		scalar_vector_mult_inplace(size,intermediate_comp,-1);
 		
 		vector_add(size,intermediate_comp,search_direction,beta,search_direction);
+		//if (i < 2)
+	  	//printf("%dth error: %lf\n",i,err);
 		i++;
 	}
 

@@ -54,6 +54,7 @@ void vector_copy(unsigned int size, double* vector_out, double* vector_in)
 void compute_residual(unsigned int size, double* A, double* b, double* x, double* vector_storage)
 {
 	matrix_vector_mult(size,A,x,vector_storage);
+	//print_vector(size,vector_storage);
 	vector_sub(size,vector_storage,b,1.0,vector_storage);
 	return;
 }

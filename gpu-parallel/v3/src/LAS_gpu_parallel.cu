@@ -13,7 +13,6 @@ __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vect
     int row = blockIdx.x * blockDim.x + threadIdx.x;
     float acc = 0.0f;
 
-<<<<<<< HEAD
     // Process all tiles, ensuring all threads participate in synchronization
     for (int tile_base = 0; tile_base < size; tile_base += TILE_SIZE) {
         int tile_end = min(tile_base + TILE_SIZE, size);
@@ -21,17 +20,11 @@ __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vect
         // Load the current tile of the vector into shared memory
         for (int i = threadIdx.x; i < TILE_SIZE; i += blockDim.x) {
             vector_tile[i] = (tile_base + i < size) ? vector[tile_base + i] : 0.0f;
-=======
+            
     if (row < size) {
         // Each thread processes the entire vector in tiles
         for (int tile_base = 0; tile_base < size; tile_base += TILE_SIZE) {
             int tile_end = min(tile_base + TILE_SIZE, size);
-            
-            // load vector into shared memory
-            for (int i = threadIdx.x; i < TILE_SIZE; i += blockDim.x) {
-                vector_tile[i] = (tile_base + i < size) ? vector[tile_base + i] : 0.0f;
-            }
-            __syncthreads();
 
             // Compute partial value for the accumulator
             for (int j = 0; j < TILE_SIZE; j++) {
@@ -41,7 +34,6 @@ __global__ void matrix_vector_mult(unsigned int size, float* matrix, float* vect
                 }
             }
             __syncthreads();
->>>>>>> 15caaa05589a4119ffefa63a60776a11b54d0167
         }
         __syncthreads();
 
