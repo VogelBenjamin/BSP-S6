@@ -1,0 +1,59 @@
+Single File read start
+M: 4884, N: 4884, nz: 290378
+Single File read end
+Init the constant vectors.
+Init the constant vectors done.
+Start Reading Matrix
+Start Partitioning
+Partition size: 18148
+End Partitioning
+Initialise submatrix!
+Rank: 0, Offset: 0 - 18181, gloabl start-stop: 0 - 378
+Start fetch remaining data
+Rank: 1, Offset: 0 - 18182, gloabl start-stop: 378 - 676
+Rank: 2, Offset: 0 - 18158, gloabl start-stop: 676 - 964
+Rank: 3, Offset: 0 - 18198, gloabl start-stop: 964 - 1265
+Rank: 4, Offset: 0 - 18198, gloabl start-stop: 1265 - 1563
+Rank: 5, Offset: 0 - 18171, gloabl start-stop: 1563 - 1851
+Rank: 6, Offset: 0 - 18171, gloabl start-stop: 1851 - 2151
+Rank: 7, Offset: 0 - 18198, gloabl start-stop: 2151 - 2449
+Rank: 8, Offset: 0 - 18198, gloabl start-stop: 2449 - 2738
+Rank: 9, Offset: 0 - 18180, gloabl start-stop: 2738 - 3038
+Rank: 10, Offset: 0 - 18171, gloabl start-stop: 3038 - 3335
+Rank: 11, Offset: 0 - 18216, gloabl start-stop: 3335 - 3625
+Rank: 12, Offset: 0 - 18169, gloabl start-stop: 3625 - 3925
+Rank: 13, Offset: 0 - 18154, gloabl start-stop: 3925 - 4222
+Rank: 14, Offset: 0 - 18178, gloabl start-stop: 4222 - 4512
+Rank: 15, Offset: 0 - 17655, gloabl start-stop: 4512 - 4884
+Finish fetch remaining data
+Complete submatrix initialization!
+Rank: 0, idx: 0, val: 285559874.919499993324
+Rank: 0, idx: 1, val: 26666666.662280000746
+Rank: 0, idx: 2, val: -146456504.162499994040
+Rank: 0, idx: 3, val: -26666666.448950000107
+Rank: 0, idx: 4, val: 9767101.054331999272
+Start BCSSTK
+
+Rank: 0, start row: 0, end row: 378
+Rank: 1, start row: 378, end row: 676
+Rank: 2, start row: 676, end row: 964
+Rank: 3, start row: 964, end row: 1265
+Rank: 4, start row: 1265, end row: 1563
+Rank: 5, start row: 1563, end row: 1851
+Rank: 6, start row: 1851, end row: 2151
+Rank: 7, start row: 2151, end row: 2449
+Rank: 8, start row: 2449, end row: 2738
+Rank: 9, start row: 2738, end row: 3038
+Rank: 10, start row: 3038, end row: 3335
+Rank: 11, start row: 3335, end row: 3625
+Rank: 12, start row: 3625, end row: 3925
+Rank: 13, start row: 3925, end row: 4222
+Rank: 14, start row: 4222, end row: 4512
+Rank: 15, start row: 4512, end row: 4884
+Number of iterations: 551
+Final epsilon: 0.000000000990
+Finished BCSSTK
+
+real	0m1.256s
+user	0m6.414s
+sys	0m2.439s

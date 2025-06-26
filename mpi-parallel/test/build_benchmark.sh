@@ -1,25 +1,21 @@
 #!/bin/bash
 #SBATCH -N 2
-#SBATCH -c 4
+#SBATCH -c 1
+#SBATCH -n 16
 #SBATCH --time=22:00:00
 
 module purge
 module load toolchain/foss/2020b
 
-gcc bcsstk06_test.c ../src/LAS_serial.c ../src/cg_serial.c ../../matrices/matrix_load.c ../../matrices/mmio.c -o bcsstk06.out -lm -O3 -march=native -fopenmp -ffast-math -funroll-loops 
-mv bcsstk06.out bin
-(time ./bin/bcsstk06.out;) &> output/bcsstk06_benchmark.txt
+mpicc bcsstkxx_test.c -o cg.out -lm  ../src/LAS_mpi.c ../src/cg_mpi.c -o cg.out -lm 
+mv cg.out bin
 
-gcc bcsstk16_test.c ../src/LAS_serial.c ../src/cg_serial.c ../../matrices/matrix_load.c ../../matrices/mmio.c -o bcsstk16.out -lm -O3 -march=native -fopenmp -ffast-math -funroll-loops 
-mv bcsstk16.out bin
-(time ./bin/bcsstk16.out;) &> output/bcsstk16_benchmark.txt
+(time srun -n 16 ./bin/cg.out "../../matrices/matrix_data/binary_bcsstk06.bin") &> output/bcsstk06_benchmark.txt
 
-gcc bcsstk17_test.c ../src/LAS_serial.c ../src/cg_serial.c ../../matrices/matrix_load.c ../../matrices/mmio.c -o bcsstk17.out -lm -O3 -march=native -fopenmp -ffast-math -funroll-loops 
-mv bcsstk17.out bin
-(time ./bin/bcsstk17.out;) &> output/bcsstk17_benchmark.txt
+(time srun -n 16 ./bin/cg.out "../../matrices/matrix_data/binary_bcsstk16.bin") &> output/bcsstk16_benchmark.txt
 
-gcc bcsstk13_test.c ../src/LAS_serial.c ../src/cg_serial.c ../../matrices/matrix_load.c ../../matrices/mmio.c -o bcsstk13.out -lm -O3 -march=native -fopenmp -ffast-math -funroll-loops 
-mv bcsstk13.out bin
-(time ./bin/bcsstk13.out;) &> output/bcsstk13_benchmark.txt
+(time srun -n 16 ./bin/cg.out "../../matrices/matrix_data/binary_bcsstk13.bin") &> output/bcsstk13_benchmark.txt
+
+(time srun -n 16 ./bin/cg.out "../../matrices/matrix_data/binary_bcsstk17.bin") &> output/bcsstk17_benchmark.txt
 
 #{ time ./pH proton.txt 28 10 0 0 0 3 2 4 7 4 2 ;} 2>> output/timeCompare.txt
