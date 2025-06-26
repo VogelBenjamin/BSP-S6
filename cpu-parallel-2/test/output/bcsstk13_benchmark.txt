@@ -1,6 +1,0 @@
-2003 2003 42943 
-Start BCSSTK13
-Number of iterations: 513544
-Final epsilon: 0.000000000997
-Time elapsed: 2532.551514
-Finished BCSSTK13
