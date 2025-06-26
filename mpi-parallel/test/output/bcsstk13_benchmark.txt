@@ -24,9 +24,10 @@ Start BCSSTK
 Rank: 0, start row: 0, end row: 921
 Rank: 1, start row: 921, end row: 1457
 Rank: 2, start row: 1457, end row: 2003
-[mpiexec@YukiV2] Sending Ctrl-C to processes as requested
-[mpiexec@YukiV2] Press Ctrl-C again to force abort
+Number of iterations: 520079
+Final epsilon: 0.000000000994
+Finished BCSSTK
 
-real	1m55.495s
-user	5m40.207s
-sys	0m8.416s
+real	2m15.909s
+user	6m34.757s
+sys	0m11.610s

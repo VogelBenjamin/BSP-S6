@@ -1,9 +1,0 @@
-
-cg.out:10604 terminated with signal 11 at PC=55cc412c201f SP=7ffd0a94ca50.  Backtrace:
-./bin/cg.out(+0x201f)[0x55cc412c201f]
-./bin/cg.out(+0x2260)[0x55cc412c2260]
-./bin/cg.out(+0x2665)[0x55cc412c2665]
-./bin/cg.out(+0x1e09)[0x55cc412c1e09]
-/lib/x86_64-linux-gnu/libc.so.6(+0x29d90)[0x7f65cf021d90]
-/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80)[0x7f65cf021e40]
-./bin/cg.out(+0x1305)[0x55cc412c1305]

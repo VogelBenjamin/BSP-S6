@@ -117,5 +117,6 @@ double* cg(unsigned int size, CSR_MAT* A, double* b, double* init_g, double epsi
 	free(residual_prev);
 	free(search_direction);
 	free(intermediate_comp);
+	free(sub_mv_mult_res);
 	return solution;
 }	

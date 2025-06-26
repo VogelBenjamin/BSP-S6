@@ -10,10 +10,10 @@ End Partitioning
 Initialise submatrix!
 Rank: 0, Offset: 0 - 2623, gloabl start-stop: 0 - 133
 Start fetch remaining data
-Finish fetch remaining data
-Complete submatrix initialization!
 Rank: 1, Offset: 0 - 2629, gloabl start-stop: 133 - 283
 Rank: 2, Offset: 0 - 2608, gloabl start-stop: 283 - 420
+Finish fetch remaining data
+Complete submatrix initialization!
 Rank: 0, idx: 0, val: 1064685280.470000028610
 Rank: 0, idx: 1, val: 10097137.073000000790
 Rank: 0, idx: 2, val: 449885280.472000002861
@@ -28,6 +28,6 @@ Number of iterations: 5564
 Final epsilon: 0.000000000688
 Finished BCSSTK
 
-real	0m0.524s
-user	0m0.787s
-sys	0m0.115s
+real	0m0.471s
+user	0m0.655s
+sys	0m0.059s

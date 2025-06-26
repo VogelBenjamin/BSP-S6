@@ -7,9 +7,9 @@ Start Reading Matrix
 Start Partitioning
 Partition size: 96792
 End Partitioning
+Initialise submatrix!
 Rank: 1, Offset: 0 - 96858, gloabl start-stop: 1653 - 3233
 Rank: 2, Offset: 0 - 96690, gloabl start-stop: 3233 - 4884
-Initialise submatrix!
 Rank: 0, Offset: 0 - 96830, gloabl start-stop: 0 - 1653
 Start fetch remaining data
 Finish fetch remaining data
@@ -28,6 +28,6 @@ Number of iterations: 551
 Final epsilon: 0.000000000990
 Finished BCSSTK
 
-real	0m0.839s
-user	0m1.607s
-sys	0m0.183s
+real	0m0.573s
+user	0m1.115s
+sys	0m0.055s
