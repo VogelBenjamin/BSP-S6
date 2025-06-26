@@ -1,0 +1,11 @@
+input 13, num_threads 13
+2003 2003 42943 
+Start BCSSTK13
+Number of iterations: 503990
+Final epsilon: 0.000000000918
+Time elapsed: 2555.460938
+Finished BCSSTK13
+
+real	3m17.250s
+user	42m27.171s
+sys	0m8.339s
