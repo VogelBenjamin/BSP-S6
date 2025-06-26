@@ -1,5 +1,0 @@
-80 [140737216362240] INFO mrtehelpers.mrteenv <> - Product libs directory: /mnt/aiongpfs/apps/resif/iris/2020b/broadwell/software/VTune/2020_update3/vtune_profiler_2020.3.0.612611/lib64
-80 [140737216362240] INFO mrtehelpers.mrteenv <> - File mask: amplxe_samplingmrte_clrprof*
-90 [140737216362240] INFO mrtehelpers.mrteenv <> - File name: libamplxe_samplingmrte_clrprof_1.0.so
-91 [140737216362240] INFO mrtehelpers.mrteenv <> - File mask: amplxe_samplingmrte_clrprof*
-103 [140737216362240] INFO mrtehelpers.mrteenv <> - File name: libamplxe_samplingmrte_clrprof_1.0.so

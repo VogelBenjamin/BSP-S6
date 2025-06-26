@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
         printf("Missing argument\n");
         return 1;
     }
+    
     file_path = argv[1];
     if (rank == 0) {
         FILE *fp = fopen(file_path, "rb");
