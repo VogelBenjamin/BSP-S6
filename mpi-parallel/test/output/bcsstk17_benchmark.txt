@@ -8,10 +8,10 @@ Start Partitioning
 Partition size: 142883
 End Partitioning
 Initialise submatrix!
-Rank: 1, Offset: 0 - 142890, gloabl start-stop: 4147 - 7423
-Rank: 2, Offset: 0 - 142842, gloabl start-stop: 7423 - 10974
 Rank: 0, Offset: 0 - 142918, gloabl start-stop: 0 - 4147
 Start fetch remaining data
+Rank: 1, Offset: 0 - 142890, gloabl start-stop: 4147 - 7423
+Rank: 2, Offset: 0 - 142842, gloabl start-stop: 7423 - 10974
 Finish fetch remaining data
 Complete submatrix initialization!
 Rank: 0, idx: 0, val: 1.000000000000
@@ -24,9 +24,10 @@ Start BCSSTK
 Rank: 0, start row: 0, end row: 4147
 Rank: 1, start row: 4147, end row: 7423
 Rank: 2, start row: 7423, end row: 10974
-[mpiexec@YukiV2] Sending Ctrl-C to processes as requested
-[mpiexec@YukiV2] Press Ctrl-C again to force abort
+Number of iterations: 33336
+Final epsilon: 0.000000000999
+Finished BCSSTK
 
-real	0m3.260s
-user	0m9.414s
-sys	0m0.502s
+real	0m17.616s
+user	0m49.838s
+sys	0m8.162s

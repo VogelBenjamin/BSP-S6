@@ -47,7 +47,7 @@ void matrix_vector_mult_compute(unsigned int size, CSR_MAT* matrix, double* vect
 
 void matrix_vector_mult_gather(unsigned int size, CSR_MAT* matrix, double* vector, double* vector_storage, int rank, int comm_size, ProcessData* pb)
 {
-	//double* all_data = (double*)malloc(comm_size*size*sizeof(double));
+	
 	int *rcv_cnt = (int*)malloc((comm_size)*sizeof(int));
 	int *displs = (int*)malloc((comm_size)*sizeof(int));
 	int curr_step = 0;
@@ -60,28 +60,16 @@ void matrix_vector_mult_gather(unsigned int size, CSR_MAT* matrix, double* vecto
 		displs[i] = curr_step;
 		curr_step += diff;
 	}
-	/*
-	if (rank == 0)
-	{
-		for (int i = 0; i < comm_size; i++)
-		{
-			printf("rank: %d, rcv_cnt: %d, offset: %d\n", i,rcv_cnt[i],displs[i]);
-		}
-	}
-	*/
 	//printf("rank: %d, send_size: %d\n", rank,send_size);
 	MPI_Barrier(MPI_COMM_WORLD);
 	MPI_Allgatherv(vector,send_size,MPI_DOUBLE,vector_storage,rcv_cnt,displs,MPI_DOUBLE,MPI_COMM_WORLD);
 
 	free(rcv_cnt);
 	free(displs);
-	//free(all_data);
 }
 
 void matrix_vector_mult(unsigned int size, CSR_MAT* matrix, double* vector, double* vector_storage, int rank, int comm_size,ProcessData* pb)
 {
-	//if (rank == 0)
-	//	printf("\nStart Matrix Vec Mult\n");
 
 	int row_cnt = pb->r_stop[rank]-pb->r_start[rank];
 	double* tmp_storage = (double*)malloc(row_cnt*sizeof(double));
@@ -89,13 +77,7 @@ void matrix_vector_mult(unsigned int size, CSR_MAT* matrix, double* vector, doub
 	MPI_Barrier(MPI_COMM_WORLD);
 	
 	matrix_vector_mult_compute(size,matrix,vector,tmp_storage,rank,comm_size);
-	/*
-	if (rank == 0)
-	{
-		printf("Look at this\n");
-		print_vector(row_cnt,tmp_storage);
-	}
-	*/
+	
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	matrix_vector_mult_gather(size,matrix,tmp_storage,vector_storage,rank,comm_size,pb);
@@ -103,9 +85,6 @@ void matrix_vector_mult(unsigned int size, CSR_MAT* matrix, double* vector, doub
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	MPI_Barrier(MPI_COMM_WORLD);
-	//if (rank == 0)
-		//print_vector(size,vector_storage);
-		//printf("Finished Matrix Vec Mult\n\n");
 }
 
 void vector_add(unsigned int size, double* vector_1, double* vector_2, double alpha, double* vector_storage)
