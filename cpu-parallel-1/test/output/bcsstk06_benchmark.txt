@@ -1,6 +1,0 @@
-420 420 4140 
-Start BCSSTK06
-Number of iterations: 5564
-Final epsilon: 0.000000000688
-Time elapsed: 9.867240
-Finished BCSSTK06

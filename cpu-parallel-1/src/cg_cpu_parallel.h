@@ -1,1 +1,0 @@
-double* cg(unsigned int size, double* A, double* b, double* init_g, double epsilon, int debug);
