@@ -36,6 +36,10 @@ cd cpu-parallel-2/test/
 ```\js
 cd gpu-parallel/v2/test/
 ./build_test.sh
+time ./bin/main_06.out
+time ./bin/main_13.out
+time ./bin/main_16.out
+time ./bin/main_17.out
 ```
 
 #### MPI
