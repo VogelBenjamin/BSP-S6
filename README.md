@@ -41,6 +41,5 @@ cd gpu-parallel/v2/test/
 #### MPI
 ```\js
 cd mpi-parallel/test/
-./build_benchmark.sh
 ./build_test.sh
 ```
